@@ -8,5 +8,6 @@ if __name__ == '__main__':
 
 def main():
     print_hi("Ava")
+    print_hi("Amrith gandham wants to triple team Netra and Ava Buiiiiiii")
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
