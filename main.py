@@ -17,7 +17,8 @@ def main():
 
 
 def collin_method(df: pd.DataFrame):
-    grouped_data = df.groupby('bias_desc')['victim_count'].sum()
+    collin_data = df[['victim_count', 'bias_desc']].dropna()
+    grouped_data = collin_data.groupby('bias_desc')['victim_count'].sum()
     return grouped_data
 
 
