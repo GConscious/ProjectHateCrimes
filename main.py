@@ -7,6 +7,10 @@ def main():
     df = pd.read_csv("hate_crime.csv")
     print(df)
 
+
+def collin_method():
+
+
 if __name__ == '__main__':
     main()
 
