@@ -1,5 +1,6 @@
 import pandas as pd
 import flake8
+import seaborn as sns
 
 
 # Line chart for number of crimes committed per year
@@ -9,7 +10,7 @@ def line_chart():
 
 def main():
     df = pd.read_csv("hate_crime.csv")
-    print(df[df['state_name']])
+    print(df['state_name'])
 
 
 def collin_method():
