@@ -7,14 +7,15 @@ if __name__ == '__main__':
     print_hi('PyCharm')
 
 def main():
-    print('This is the start')
+    print('A sorority girl on a Tuesday afternoon: ')
     for i in range(5):
         print("I like coffee")
-    print_hi("collin shen likes J Moon")
     print("ᕦ⊙෴⊙ᕤ")
     parties = 1
-    frat = ['phi pools']
+    print('Mykyta is going to which frat?')
+    frat = ['phi pools', 'delts']
     print(frat)
+
 
 
 
