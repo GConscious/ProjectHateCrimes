@@ -10,12 +10,18 @@ def line_chart():
 
 def main():
     df = pd.read_csv("hate_crime.csv")
+    # print(df)
+    return df
     print(df['state_name'])
 
 
-def collin_method():
-    pass
+
+def collin_method(df: pd.DataFrame):
+    grouped_data = df.groupby('bias_desc')['victim_count'].sum()
+
+    return grouped_data
 
 
 if __name__ == '__main__':
     main()
+    print(collin_method(main()))
