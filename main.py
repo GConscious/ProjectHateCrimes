@@ -11,5 +11,6 @@ def main():
     for i in range(5):
         print("I like coffee")
     print_hi("collin shen likes J Moon")
+    print("ᕦ⊙෴⊙ᕤ")
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
