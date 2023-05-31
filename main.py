@@ -11,6 +11,7 @@ if __name__ == '__main__':
 
 def main():
     print('A sorority girl on a Tuesday afternoon: ')
+    print('Amrith go get some bitches!!!')
     for i in range(5):
         print("I like coffee")
     print("ᕦ⊙෴⊙ᕤ")
