@@ -6,8 +6,6 @@ import plotly.express as px
 
 
 # Line chart for number of crimes committed per year
-def line_chart(df: pd.DataFrame):
-    pass
 
 
 def main():
@@ -21,16 +19,14 @@ def main():
 
 def collin_method1(df: pd.DataFrame):
     collin_data = df[['victim_count', 'offender_race']].dropna()
-    grouped_data = collin_data.groupby('offender_race')['victim_count'].mean()
+    grouped_data = collin_data.groupby('offender_race')['victim_count'].sum().reset_index()
 
-    mean_data = pd.DataFrame({'offender_race': grouped_data.index, 'victim_count': grouped_data.values})
+    # Create a bar chart using Plotly
+    fig = px.bar(grouped_data, x='offender_race', y='victim_count',
+                 labels={'victim_count': 'Total Victim Count'},
+                 title='Victim Count by Offender\'s Race')
 
-    sns.barplot(data=mean_data, x='offender_race', y='victim_count')
-    plt.xlabel("Offender's Race")
-    plt.ylabel('Total Victim Count (Thousands)')
-    plt.title('Victim Count by Offender\'s Race')
-    plt.xticks(rotation=90)
-    plt.show()
+    fig.show()
 
 
 def collin_method2(df: pd.DataFrame):
@@ -85,6 +81,10 @@ def collin_method4(df: pd.DataFrame):
     fig.show()
 
 
+def amrith_line_chart(df: pd.DataFrame):
+    hate_crime_counts = df.groupby('data_year').size().reset_index(name='crime_count')
+
+    fig = px.line(hate_crime_counts, x='data_year', y='crime_count', title='Number of Hate Crimes by Year')
 
 
 # sum of victim count across us by state since 2010
