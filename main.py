@@ -6,7 +6,7 @@ import matplotlib as plt
 
 # Line chart for number of crimes committed per year
 def line_chart(df: pd.DataFrame):
-    pass
+
 
 
 def main():
