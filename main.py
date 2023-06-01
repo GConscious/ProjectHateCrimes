@@ -11,9 +11,9 @@ def line_chart(df: pd.DataFrame):
 
 def main():
     hate_crimes = pd.read_csv("hate_crime.csv")
-    collin_method(hate_crimes)
     data = hate_crimes[(hate_crimes['data_year'] >= 2010) & (hate_crimes['data_year'] <= 2021)]
-    print(collin_method(hate_crimes))
+    collin_method(data)
+    print(collin_method(data))
 
 
 def collin_method(df: pd.DataFrame):
