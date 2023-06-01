@@ -16,16 +16,17 @@ def main():
     print(collin_method(data))
 
 
-def collin_method(df: pd.DataFrame):
+def collin_method1(df: pd.DataFrame):
     collin_data = df[['victim_count', 'offender_race']].dropna()
-    # filtered_data = collin_data[collin_data >= 100]
+    grouped_data = collin_data.groupby('offender_race')['victim_count'].mean()
 
-    sns.catplot(data=collin_data, kind="bar", x="offender_race", y="victim_count")
+    mean_data = pd.DataFrame({'offender_race': grouped_data.index, 'victim_count': grouped_data.values})
+
+    sns.barplot(data=mean_data, x='offender_race', y='victim_count')
     plt.xlabel("Offender's Race")
-    plt.ylabel('Total Victim Count')
-    plt.title('Victim Count by Bias Description')
-
-    # Display the chart
+    plt.ylabel('Total Victim Count (Thousands)')
+    plt.title('Victim Count by Offender\'s Race')
+    plt.xticks(rotation=90)
     plt.show()
 
 
