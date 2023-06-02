@@ -16,7 +16,7 @@ def main():
     amrith_line_chart(data)
     # collin_method1(data)
     # collin_method2(data)
-    #collin_method3(data)
+    # collin_method3(data)
     # collin_method4(data)
 
 
@@ -130,6 +130,23 @@ def mykyt_method(df: pd.DataFrame) -> None:
         width=800
     )
     fig.show()
+
+
+def mykyt_method_2(df: pd.DataFrame) -> None:
+    df = df[df['victim_types'].isin(['Individual', 'Other', 'Business', 'Government',
+                                         'Religious Organization', 'Society/Public',
+                                         'Business;Individual', 'Unknown'])]
+    counts = df['victim_types'].value_counts()
+
+    # Plot the bar graph
+    plt.figure(figsize=(10, 6))
+    counts.plot(kind='bar', color='blue')
+    plt.xlabel('Victim Types')
+    plt.ylabel('Total Hate Crimes')
+    plt.title('Total Hate Crimes by Victim Types')
+
+    # Show the plot
+    plt.show()
 
 
 if __name__ == '__main__':
