@@ -20,6 +20,8 @@ def main():
     # collin_method4(data)
 
 
+
+
 def collin_method1(df: pd.DataFrame):
     collin_data = df[['victim_count', 'offender_race']].dropna()
     grouped_data = collin_data.groupby('offender_race')['victim_count'].sum().reset_index()
