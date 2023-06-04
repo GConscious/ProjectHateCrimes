@@ -2,3 +2,6 @@
 ## CSE 163 Project for Homelessness
 ### FBI Hate Crime Dataset 1991-2021
 https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/downloads#datasets
+
+### BEA Per capita personal income (2010-2021)
+https://apps.bea.gov/itable/?ReqID=70&step=1#eyJhcHBpZCI6NzAsInN0ZXBzIjpbMSwyNCwyOSwyNSwzMSwyNiwyNywzMCwzMF0sImRhdGEiOltbIlRhYmxlSWQiLCIyMSJdLFsiQ2xhc3NpZmljYXRpb24iLCJOb24tSW5kdXN0cnkiXSxbIk1ham9yX0FyZWEiLCIwIl0sWyJTdGF0ZSIsWyIwIl1dLFsiQXJlYSIsWyJYWCJdXSxbIlN0YXRpc3RpYyIsIjMiXSxbIlVuaXRfb2ZfbWVhc3VyZSIsIkxldmVscyJdLFsiWWVhciIsWyIyMDIxIiwiMjAyMCIsIjIwMTkiLCIyMDE4IiwiMjAxNyIsIjIwMTYiLCIyMDE1IiwiMjAxNCIsIjIwMTMiLCIyMDEyIiwiMjAxMSIsIjIwMTAiXV0sWyJZZWFyQmVnaW4iLCItMSJdLFsiWWVhcl9FbmQiLCItMSJdXX0=
