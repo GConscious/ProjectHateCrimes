@@ -10,11 +10,13 @@ import plotly.express as px
 
 def main():
     hate_crimes = pd.read_csv("hate_crime.csv")
+    income_data = pd.read_csv("income_data.csv")
     data = hate_crimes[(hate_crimes['data_year'] >= 2010) & (hate_crimes['data_year'] <= 2021)]
     # mykyt_method(data)
     # amrith_map(data)
-    amrith_line_chart(data)
-    collin_method1(data)
+    # amrith_compare_income(hate_crimes, income_data)
+    # amrith_line_chart(data)
+    # collin_method1(data)
     # collin_method2(data)
     # collin_method3(data)
     # collin_method4(data)
@@ -75,7 +77,7 @@ def collin_method4(df: pd.DataFrame):
 
 def amrith_line_chart(df: pd.DataFrame):
     df = df[['data_year']].dropna()
-    hate_crime_counts = df.groupby('data_year').size().reset_index(name='crime_count')
+    hate_crime_counts = df.groupby('data_year').size().reset_index('crime_count')
 
     fig = px.line(hate_crime_counts, x='data_year', y='crime_count',
                   title='Number of Hate Crimes by Year')
@@ -83,20 +85,45 @@ def amrith_line_chart(df: pd.DataFrame):
 
 
 def amrith_map(df: pd.DataFrame):
-    hate_crime_counts = df.groupby('state_abbr').size().reset_index(name='count')
+    df = df[['data_year', 'state_abbr', 'state_name']].dropna()
+    hate_crime_counts = df.groupby('state_abbr')['data_year'].size().reset_index('count')
 
+    print(hate_crime_counts)
     fig = px.choropleth(
         hate_crime_counts,
         locations='state_abbr',
+        hover_data=['state_name'],
         locationmode='USA-states',
         color='count',
         scope='usa',
-        labels={'count': 'Number of Victims'},
-        title='Number of Hate Crimes by State',
+        title='Total Number of Hate Crimes by State (2010-2021)',
+        labels={'count': 'Number of Crimes'},
         color_continuous_scale='Blues'
     )
 
     fig.show()
+
+
+def amrith_compare_income(hate_crimes, income):
+    hate_crimes = hate_crimes[['data_year', 'state_abbr', 'state_name']].dropna()
+    # Exclude GeoFips column
+    income = income.loc[:, income.columns != 'GeoFips']
+    hate_crime_counts = hate_crimes.groupby('state_abbr')['data_year'].size().reset_index('count')
+
+    # Merge hate crime and income data
+    merge = hate_crimes.merge(income, left_on='state_name', right_on='GeoName')
+    print(merge.head())
+    # grouped_df = merged_df.groupby('state_abbr').agg({'total_offender_count': 'sum', '2021': 'mean'}).reset_index()
+    # print(grouped_df)
+    # fig = px.scatter(grouped_df, x='2021', y='total_offender_count', hover_data=['state_abbr'])
+    #
+    # fig.update_layout(
+    #     title='Hate Crimes vs Per Capita Income by State',
+    #     xaxis_title='Per Capita Income (2021)',
+    #     yaxis_title='Number of Hate Crimes'
+    # )
+    #
+    # fig.show()
 
 
 # sum of victim count across us by state since 2010
