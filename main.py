@@ -13,9 +13,9 @@ def main():
     income_data = pd.read_csv("income_data.csv")
     data = hate_crimes[(hate_crimes['data_year'] >= 2010) & (hate_crimes['data_year'] <= 2021)]
     # mykyt_method(data)
-    amrith_map(data)
+    # amrith_map(data)
     # amrith_compare_income(hate_crimes, income_data)
-    # amrith_line_chart(data)
+    amrith_line_chart(data)
     # collin_method1(data)
     # collin_method2(data)
     # collin_method3(data)
@@ -77,11 +77,11 @@ def collin_method4(df: pd.DataFrame):
 
 def amrith_line_chart(df: pd.DataFrame):
     df = df[['data_year']].dropna()
-    hate_crime_counts = df.groupby('data_year').size().reset_index('crime_count')
-
-    fig = px.line(hate_crime_counts, x='data_year', y='crime_count',
-                  title='Number of Hate Crimes by Year')
-    fig.show()
+    hate_crime_counts = df.groupby('data_year').size().reset_index(name='crime_count')
+    print(hate_crime_counts)
+    # fig = px.line(hate_crime_counts, x='data_year', y='crime_count',
+    #               title='Number of Hate Crimes by Year')
+    # fig.show()
 
 
 def amrith_map(df: pd.DataFrame):
@@ -106,7 +106,7 @@ def amrith_compare_income(hate_crimes, income):
     hate_crimes = hate_crimes[['data_year', 'state_abbr', 'state_name']].dropna()
     # Exclude GeoFips column
     income = income.loc[:, income.columns != 'GeoFips']
-    hate_crime_counts = hate_crimes.groupby('state_abbr')['data_year'].size().reset_index('count')
+    hate_crime_counts = hate_crimes.groupby('state_abbr')['data_year'].size().reset_index(name='count')
 
     # Merge hate crime and income data
     merge = hate_crimes.merge(income, left_on='state_name', right_on='GeoName')
