@@ -92,7 +92,6 @@ def amrith_map(df: pd.DataFrame):
     fig = px.choropleth(
         hate_crime_counts,
         locations='state_abbr',
-        hover_data=['state_name'],
         locationmode='USA-states',
         color='count',
         scope='usa',
