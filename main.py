@@ -13,7 +13,7 @@ def main():
     income_data = pd.read_csv("income_data.csv")
     data = hate_crimes[(hate_crimes['data_year'] >= 2010) & (hate_crimes['data_year'] <= 2021)]
     # mykyt_method(data)
-    # amrith_map(data)
+    amrith_map(data)
     # amrith_compare_income(hate_crimes, income_data)
     # amrith_line_chart(data)
     # collin_method1(data)
@@ -86,9 +86,8 @@ def amrith_line_chart(df: pd.DataFrame):
 
 def amrith_map(df: pd.DataFrame):
     df = df[['data_year', 'state_abbr', 'state_name']].dropna()
-    hate_crime_counts = df.groupby('state_abbr')['data_year'].size().reset_index('count')
+    hate_crime_counts = df.groupby('state_abbr')['data_year'].size().reset_index(name='count')
 
-    print(hate_crime_counts)
     fig = px.choropleth(
         hate_crime_counts,
         locations='state_abbr',
