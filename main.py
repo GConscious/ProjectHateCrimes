@@ -13,13 +13,13 @@ def main():
     income_data = pd.read_csv("income_data.csv")
     data = hate_crimes[(hate_crimes['data_year'] >= 2010) & (hate_crimes['data_year'] <= 2021)]
     # mykyt_method(data)
-    # amrith_map(data)
+    mykyt_method_2(data)
+    # amrith_line_chart(data)
+    amrith_map(data)
     # amrith_compare_income(hate_crimes, income_data)
-    amrith_line_chart(data)
-    # collin_method1(data)
-    # collin_method2(data)
-    # collin_method3(data)
-    # collin_method4(data)
+    collin_method1(data)
+    collin_method2(data)
+    collin_method4(data)
 
 
 def collin_method1(df: pd.DataFrame):
@@ -31,33 +31,18 @@ def collin_method1(df: pd.DataFrame):
 
 def collin_method2(df: pd.DataFrame):
     collin_data = df[['victim_count', 'data_year']].dropna()
-
     grouped_data = collin_data.groupby('data_year')['victim_count'].sum().reset_index()
 
-    fig = px.line(grouped_data, x='data_year', y='victim_count')
+    fig = px.line(grouped_data, x='data_year', y='victim_count', markers=True, text='victim_count')
+    fig.update_traces(textposition='top center')
     fig.update_layout(
+        xaxis=dict(tickmode='linear', tick0=0, dtick=1),
         xaxis_title='Year',
         yaxis_title='Total Victim Count',
         title='Victim Count Over the Years'
     )
     fig.show()
 
-
-def collin_method3(df: pd.DataFrame):
-    collin_data = df[['state_abbr', 'victim_count']].dropna()
-    grouped_data = collin_data.groupby('state_abbr')['victim_count'].sum().reset_index()
-
-    fig = px.choropleth(
-        grouped_data,
-        locations='state_abbr',
-        locationmode='USA-states',
-        color='victim_count',
-        scope='usa',
-        color_continuous_scale='Greens',
-        labels={'victim_count': 'Total Victim Count'})
-    fig.update_layout(title='Hate Crimes by State Heatmap')
-
-    fig.show()
 
 
 def collin_method4(df: pd.DataFrame):
@@ -78,10 +63,10 @@ def collin_method4(df: pd.DataFrame):
 def amrith_line_chart(df: pd.DataFrame):
     df = df[['data_year']].dropna()
     hate_crime_counts = df.groupby('data_year').size().reset_index(name='crime_count')
-    print(hate_crime_counts)
-    # fig = px.line(hate_crime_counts, x='data_year', y='crime_count',
-    #               title='Number of Hate Crimes by Year')
-    # fig.show()
+    # print(hate_crime_counts)
+    fig = px.line(hate_crime_counts, x='data_year', y='crime_count',
+                  title='Number of Hate Crimes by Year')
+    fig.show()
 
 
 def amrith_map(df: pd.DataFrame):
