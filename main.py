@@ -1,34 +1,39 @@
+import flake8
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
-
-
-# Line chart for number of crimes committed per year
 
 
 def main():
     hate_crimes = pd.read_csv("hate_crime.csv")
     income_data = pd.read_csv("income_data.csv")
     hate_crimes_filtered = hate_crimes[(hate_crimes['data_year'] >= 2010) & (hate_crimes['data_year'] <= 2021)]
-    print(num_victims_offender_race(hate_crimes_filtered))
-    victims_line_chart(hate_crimes_filtered)
-    crimes_committed_line(hate_crimes_filtered)
-    biases_pie_chart(hate_crimes_filtered)
-    hate_crimes_state_map(hate_crimes_filtered)
-    counts_vs_income_states(hate_crimes_filtered, income_data)
-    victim_bar_chart(hate_crimes_filtered)
+    # print(num_victims_offender_race(hate_crimes_filtered))
+    # victims_line_chart(hate_crimes_filtered)
+    # crimes_committed_line(hate_crimes_filtered)
+    # biases_pie_chart(hate_crimes_filtered)
+    # hate_crimes_state_map(hate_crimes_filtered)
+    # counts_vs_income_states(hate_crimes_filtered, income_data)
+    # victim_bar_chart(hate_crimes_filtered)
 
-# Victims based on offender race
 
 def num_victims_offender_race(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    num_victims_offender_race calculates the total number of victims for each
+    the offender's race. Takes in df, pandas Dataframe, of the hate crime dataset
+    Returns a DataFrame with the offender's race and the corresponding victim count.
+    """
     collin_data = df[['victim_count', 'offender_race']].dropna()
     grouped_data = collin_data.groupby('offender_race')['victim_count'].sum().reset_index()
 
     return grouped_data
 
 
-# Line chart number of victims per year
 def victims_line_chart(df: pd.DataFrame) -> None:
+    """
+    victims_line_chart plots a line chart showing the total victim count from 2010 to 2021.
+    Takes in df, pandas Dataframe, of the hate crime dataset. Returns None.
+    """
     collin_data = df[['victim_count', 'data_year']].dropna()
 
     grouped_data = collin_data.groupby('data_year')['victim_count'].sum().reset_index()
@@ -39,13 +44,16 @@ def victims_line_chart(df: pd.DataFrame) -> None:
         xaxis=dict(tickmode='linear', tick0=0, dtick=1),
         xaxis_title='Year',
         yaxis_title='Total Victim Count',
-        title='Victim Count Over the Years'
+        title='Number of Victims (2010-2021)'
     )
     fig.show()
 
 
-# Pie chart for biases.
 def biases_pie_chart(df: pd.DataFrame) -> None:
+    """
+    biases_pie_chart creates a pie chart showing the proportion of hate crimes
+    by bias type. Takes in df, pandas Dataframe, of the hate crime dataset. Returns None.
+    """
     collin_data = df[['bias_desc', 'victim_count']].dropna()
     grouped_data = collin_data.groupby('bias_desc')['victim_count'].sum().reset_index()
     grouped_data['proportion'] = grouped_data['victim_count'] / grouped_data['victim_count'].sum()
@@ -60,8 +68,12 @@ def biases_pie_chart(df: pd.DataFrame) -> None:
     fig.show()
 
 
-# Line chart for number of crimes committed per year
 def crimes_committed_line(df: pd.DataFrame) -> None:
+    """
+    crimes_committed_line plots a line chart showing the number of hate crimes
+    committed per year from 2010 to 2021. Takes in df, pandas Dataframe, of the hate crime dataset.
+    Returns None
+    """
     df = df[['data_year']].dropna()
     hate_crime_counts = df.groupby('data_year').size().reset_index(name='crime_count')
     # print(hate_crime_counts)
@@ -70,8 +82,11 @@ def crimes_committed_line(df: pd.DataFrame) -> None:
     fig.show()
 
 
-# Heatmap displays number of hate crimes by state
 def hate_crimes_state_map(df: pd.DataFrame) -> None:
+    """
+    hate_crimes_state_map plots a heatmap showing the number of hate crimes by state.
+    Takes in df, pandas Dataframe, of the hate crime dataset. Returns none.
+    """
     df = df[['data_year', 'state_abbr', 'state_name']].dropna()
     hate_crime_counts = df.groupby(['state_abbr'])['data_year'].size().reset_index(name='count')
     fig = px.choropleth(
@@ -88,8 +103,12 @@ def hate_crimes_state_map(df: pd.DataFrame) -> None:
     fig.show()
 
 
-# Plots 3 scatterplots showing amount of hate crimes versus per capita income for each state
 def counts_vs_income_states(hate_crimes: pd.DataFrame, income: pd.DataFrame) -> None:
+    """
+    counts_vs_income_states generates scatterplots from 2019 to 2022 comparing the
+    number of hate crimes with per capita income for each state and year.
+    Takes in df, pandas Dataframe, of the hate crime dataset. Returns none.
+    """
     hate_filtered = hate_crimes[['data_year', 'state_abbr', 'state_name']].dropna()
     income = income[income['GeoName'] != 'United States']
 
@@ -108,21 +127,22 @@ def counts_vs_income_states(hate_crimes: pd.DataFrame, income: pd.DataFrame) -> 
         fig.show()
 
 
-# Plots bar chart of the number of hate crimes by victim types.
 def victim_bar_chart(df: pd.DataFrame) -> None:
+    """
+    victim_bar_chart plots a bar chart that displays total hate crimes by victim type.
+    Takes in df, pandas Dataframe, of the hate crime dataset. Returns none.
+    """
     df = df[df['victim_types'].isin(['Individual', 'Other', 'Business', 'Government',
                                      'Religious Organization', 'Society/Public',
                                      'Business;Individual', 'Unknown'])]
     counts = df['victim_types'].value_counts()
 
-    # Plot the bar graph
     plt.figure(figsize=(10, 6))
     counts.plot(kind='bar', color='blue')
     plt.xlabel('Victim Types')
     plt.ylabel('Total Hate Crimes')
     plt.title('Total Hate Crimes by Victim Types')
 
-    # Show the plot
     plt.show()
 
 
