@@ -31,6 +31,7 @@ def collin_method1(df: pd.DataFrame):
 
 def collin_method2(df: pd.DataFrame):
     collin_data = df[['victim_count', 'data_year']].dropna()
+
     grouped_data = collin_data.groupby('data_year')['victim_count'].sum().reset_index()
 
     fig = px.line(grouped_data, x='data_year', y='victim_count', markers=True, text='victim_count')
@@ -71,8 +72,7 @@ def amrith_line_chart(df: pd.DataFrame):
 
 def amrith_map(df: pd.DataFrame):
     df = df[['data_year', 'state_abbr', 'state_name']].dropna()
-    hate_crime_counts = df.groupby('state_abbr')['data_year'].size().reset_index(name='count')
-
+    hate_crime_counts = df.groupby(['state_abbr'])['data_year'].size().reset_index(name='count')
     fig = px.choropleth(
         hate_crime_counts,
         locations='state_abbr',
@@ -88,28 +88,24 @@ def amrith_map(df: pd.DataFrame):
 
 
 def amrith_compare_income(hate_crimes, income):
-    hate_crimes = hate_crimes[['data_year', 'state_abbr', 'state_name']].dropna()
-    # Exclude GeoFips column
-    income = income.loc[:, income.columns != 'GeoFips']
-    hate_crime_counts = hate_crimes.groupby('state_abbr')['data_year'].size().reset_index(name='count')
+    hate_filtered = hate_crimes[['data_year', 'state_abbr', 'state_name']].dropna()
+    income = income[income['GeoName'] != 'United States']
 
-    # Merge hate crime and income data
-    merge = hate_crimes.merge(income, left_on='state_name', right_on='GeoName')
-    print(merge.head())
-    # grouped_df = merged_df.groupby('state_abbr').agg({'total_offender_count': 'sum', '2021': 'mean'}).reset_index()
-    # print(grouped_df)
-    # fig = px.scatter(grouped_df, x='2021', y='total_offender_count', hover_data=['state_abbr'])
-    #
-    # fig.update_layout(
-    #     title='Hate Crimes vs Per Capita Income by State',
-    #     xaxis_title='Per Capita Income (2021)',
-    #     yaxis_title='Number of Hate Crimes'
-    # )
-    #
-    # fig.show()
+    for year in range(2017, 2021):
+        hate_crime_counts = hate_filtered[hate_filtered['data_year'] == year].groupby(['state_abbr']).agg(
+            {'data_year': 'size', 'state_name': 'first'}).reset_index()
+        hate_crime_counts = hate_crime_counts.rename(columns={'data_year': 'counts'})
+        merged_df = hate_crime_counts.merge(income, left_on='state_name', right_on='GeoName')
+
+        fig = px.scatter(merged_df, x=str(year), y='counts',
+                         hover_data=['state_name'],
+                         text='state_name',
+                         labels={str(year): 'Per Capita Income', 'counts': 'Number of Hate Crimes'})
+
+        fig.update_layout(title=f"Hate Crimes vs Per Capita Income ({year})")
+        fig.show()
 
 
-# sum of victim count across us by state since 2010
 def mykyt_method(df: pd.DataFrame) -> None:
     df = df[['victim_count', 'state_abbr']].dropna()
     state_victim_counts = df.groupby('state_abbr')['victim_count'].sum().reset_index()
