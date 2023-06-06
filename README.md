@@ -1,7 +1,9 @@
-# ProjectHomeless
+# Hate Crime Trends in the United States
 ## CSE 163 Project for Homelessness
-### FBI Hate Crime Dataset 1991-2021
-https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/downloads#datasets
+## Authors: Amrith Gandham, Collin Shen, Mykyta Lepikash
 
-### BEA Per capita personal income (2010-2021)
-https://apps.bea.gov/itable/?ReqID=70&step=1#eyJhcHBpZCI6NzAsInN0ZXBzIjpbMSwyNCwyOSwyNSwzMSwyNiwyNywzMCwzMF0sImRhdGEiOltbIlRhYmxlSWQiLCIyMSJdLFsiQ2xhc3NpZmljYXRpb24iLCJOb24tSW5kdXN0cnkiXSxbIk1ham9yX0FyZWEiLCIwIl0sWyJTdGF0ZSIsWyIwIl1dLFsiQXJlYSIsWyJYWCJdXSxbIlN0YXRpc3RpYyIsIjMiXSxbIlVuaXRfb2ZfbWVhc3VyZSIsIkxldmVscyJdLFsiWWVhciIsWyIyMDIxIiwiMjAyMCIsIjIwMTkiLCIyMDE4IiwiMjAxNyIsIjIwMTYiLCIyMDE1IiwiMjAxNCIsIjIwMTMiLCIyMDEyIiwiMjAxMSIsIjIwMTAiXV0sWyJZZWFyQmVnaW4iLCItMSJdLFsiWWVhcl9FbmQiLCItMSJdXX0=
+
+Whether the project can be run directly in the Ed Workspace.
+1. The project cannot be run directly in Ed because of the large datasets we utilized. Our team used PyCharm and GitHub for our collaboration purposes.
+2. Our project used libraries such as pandas, matplotlib, and plotly. In order to use them, they be must installed with an import statement at the beginning at the file.
+3. Our code can be executed from the terminal by entering $ python "filename". 
