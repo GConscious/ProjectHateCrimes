@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 
 
-# Line chart for number of crimes committed per year
 
 
 def main():
