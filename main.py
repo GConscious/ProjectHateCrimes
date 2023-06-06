@@ -1,34 +1,34 @@
 import pandas as pd
-import flake8
-import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
 
 
+# Line chart for number of crimes committed per year
 
 
 def main():
     hate_crimes = pd.read_csv("hate_crime.csv")
     income_data = pd.read_csv("income_data.csv")
-    data = hate_crimes[(hate_crimes['data_year'] >= 2010) & (hate_crimes['data_year'] <= 2021)]
-    # mykyt_method(data)
-    mykyt_method_2(data)
-    # amrith_line_chart(data)
-    amrith_map(data)
-    # amrith_compare_income(hate_crimes, income_data)
-    collin_method1(data)
-    collin_method2(data)
-    collin_method4(data)
+    hate_crimes_filtered = hate_crimes[(hate_crimes['data_year'] >= 2010) & (hate_crimes['data_year'] <= 2021)]
+    print(num_victims_offender_race(hate_crimes_filtered))
+    victims_line_chart(hate_crimes_filtered)
+    crimes_committed_line(hate_crimes_filtered)
+    biases_pie_chart(hate_crimes_filtered)
+    hate_crimes_state_map(hate_crimes_filtered)
+    counts_vs_income_states(hate_crimes_filtered, income_data)
+    victim_bar_chart(hate_crimes_filtered)
 
+# Victims based on offender race
 
-def collin_method1(df: pd.DataFrame):
+def num_victims_offender_race(df: pd.DataFrame) -> pd.DataFrame:
     collin_data = df[['victim_count', 'offender_race']].dropna()
     grouped_data = collin_data.groupby('offender_race')['victim_count'].sum().reset_index()
 
-    print(grouped_data)
+    return grouped_data
 
 
-def collin_method2(df: pd.DataFrame):
+# Line chart number of victims per year
+def victims_line_chart(df: pd.DataFrame) -> None:
     collin_data = df[['victim_count', 'data_year']].dropna()
 
     grouped_data = collin_data.groupby('data_year')['victim_count'].sum().reset_index()
@@ -44,8 +44,8 @@ def collin_method2(df: pd.DataFrame):
     fig.show()
 
 
-
-def collin_method4(df: pd.DataFrame):
+# Pie chart for biases.
+def biases_pie_chart(df: pd.DataFrame) -> None:
     collin_data = df[['bias_desc', 'victim_count']].dropna()
     grouped_data = collin_data.groupby('bias_desc')['victim_count'].sum().reset_index()
     grouped_data['proportion'] = grouped_data['victim_count'] / grouped_data['victim_count'].sum()
@@ -60,16 +60,18 @@ def collin_method4(df: pd.DataFrame):
     fig.show()
 
 
-def amrith_line_chart(df: pd.DataFrame):
+# Line chart for number of crimes committed per year
+def crimes_committed_line(df: pd.DataFrame) -> None:
     df = df[['data_year']].dropna()
     hate_crime_counts = df.groupby('data_year').size().reset_index(name='crime_count')
     # print(hate_crime_counts)
     fig = px.line(hate_crime_counts, x='data_year', y='crime_count',
-                  title='Number of Hate Crimes by Year')
+                  title='Number of Hate Crimes by Year (2010-2021)')
     fig.show()
 
 
-def amrith_map(df: pd.DataFrame):
+# Heatmap displays number of hate crimes by state
+def hate_crimes_state_map(df: pd.DataFrame) -> None:
     df = df[['data_year', 'state_abbr', 'state_name']].dropna()
     hate_crime_counts = df.groupby(['state_abbr'])['data_year'].size().reset_index(name='count')
     fig = px.choropleth(
@@ -86,11 +88,12 @@ def amrith_map(df: pd.DataFrame):
     fig.show()
 
 
-def amrith_compare_income(hate_crimes, income):
+# Plots 3 scatterplots showing amount of hate crimes versus per capita income for each state
+def counts_vs_income_states(hate_crimes: pd.DataFrame, income: pd.DataFrame) -> None:
     hate_filtered = hate_crimes[['data_year', 'state_abbr', 'state_name']].dropna()
     income = income[income['GeoName'] != 'United States']
 
-    for year in range(2017, 2021):
+    for year in range(2019, 2022):
         hate_crime_counts = hate_filtered[hate_filtered['data_year'] == year].groupby(['state_abbr']).agg(
             {'data_year': 'size', 'state_name': 'first'}).reset_index()
         hate_crime_counts = hate_crime_counts.rename(columns={'data_year': 'counts'})
@@ -105,28 +108,8 @@ def amrith_compare_income(hate_crimes, income):
         fig.show()
 
 
-def mykyt_method(df: pd.DataFrame) -> None:
-    df = df[['victim_count', 'state_abbr']].dropna()
-    state_victim_counts = df.groupby('state_abbr')['victim_count'].sum().reset_index()
-    # Create a choropleth map using plotly.express
-    fig = px.choropleth(
-        state_victim_counts,
-        locations='state_abbr',
-        locationmode='USA-states',
-        color='victim_count',
-        color_continuous_scale='YlOrRd',
-        labels={'victim_count': 'Victim Count'},
-        title='Victim Count across US (2010-2021)'
-    )
-    fig.update_layout(
-        geo_scope='usa',
-        height=600,
-        width=800
-    )
-    fig.show()
-
-
-def mykyt_method_2(df: pd.DataFrame) -> None:
+# Plots bar chart of the number of hate crimes by victim types.
+def victim_bar_chart(df: pd.DataFrame) -> None:
     df = df[df['victim_types'].isin(['Individual', 'Other', 'Business', 'Government',
                                      'Religious Organization', 'Society/Public',
                                      'Business;Individual', 'Unknown'])]
